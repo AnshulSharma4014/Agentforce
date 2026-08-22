@@ -263,6 +263,45 @@ private class PolicyAccessServiceTest {
         System.assertEquals(0, r.size());
     }
 
+    /* ---- Fallback identity: the running user's OWN contact ---- */
+
+    @isTest static void fallback_internalUserWithoutContactIsNull() {
+        // Tests run as an internal user with no linked Contact — the agent-user shape.
+        // Must be null so every caller keeps failing closed.
+        System.assertEquals(null, PolicyAccessService.resolveRunningUserContactId(),
+            'a running user with no Contact must not resolve to one');
+    }
+
+    @isTest static void fallback_isCachedPerTransaction() {
+        Integer before = Limits.getQueries();
+        PolicyAccessService.resolveRunningUserContactId();
+        PolicyAccessService.resolveRunningUserContactId();
+        PolicyAccessService.resolveRunningUserContactId();
+        System.assert(Limits.getQueries() - before <= 1,
+            'fallback identity must be cached; queries used: '
+                + (Limits.getQueries() - before));
+    }
+
+    @isTest static void fallback_doesNotRescueAnUnresolvedRequest() {
+        // Unresolvable messaging id + a running user with no Contact => still closed.
+        // Proves the fallback never invents access it cannot derive.
+        PolicyAccessService.runningUserContactLoaded = false;
+        PolicyAccessService.runningUserContact = null;
+
+        ListMyPolicies.Request req = new ListMyPolicies.Request();
+        req.messagingEndUserId = '0Mw000000000000AAA';
+        PolicyAccessService.Result r =
+            ListMyPolicies.run(new List<ListMyPolicies.Request>{ req })[0];
+        System.assertEquals(false, r.found, 'unresolved identity must stay closed');
+        System.assertEquals(0, r.policyCount);
+
+        GetPolicyDetails.Request d = new GetPolicyDetails.Request();
+        d.messagingEndUserId = '0Mw000000000000AAA';
+        d.policyNumber = '12345';
+        System.assertEquals(false,
+            GetPolicyDetails.run(new List<GetPolicyDetails.Request>{ d })[0].found);
+    }
+
     /* ---- Invocable entry points ---- */
 
     @isTest static void listInvocable_unresolvedFailsClosed() {
@@ -298,7 +337,8 @@ private class PolicyAccessServiceTest {
         Test.stopTest();
 
         System.assertEquals(50, out.size());
-        System.assert(used <= 2,
+        // 2 identity hops + 1 cached fallback lookup, regardless of request count.
+        System.assert(used <= 3,
             'identity resolution must be bulkified; queries used: ' + used);
     }
 

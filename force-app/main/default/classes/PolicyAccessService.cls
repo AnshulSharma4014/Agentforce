@@ -99,6 +99,49 @@ public with sharing class PolicyAccessService {
     }
 
     /**
+     * FALLBACK identity: the Contact of the user actually running this transaction.
+     *
+     * WHY IT EXISTS: on authenticated Experience Cloud messaging, Agentforce executes
+     * actions AS THE SIGNED-IN CUSTOMER, not as the agent user. That identity cannot read
+     * MessagingEndUser — the object is not in the Customer Community Plus license, so no
+     * permission set can grant it — and hop 1 therefore fails for every real site session.
+     * Here the running user IS the customer, so their own Id is the identity.
+     *
+     * WHY IT IS NOT A HOLE: there is no input. The only value that can ever come back is
+     * the running user's own ContactId. UserInfo.getUserId() is platform-set and cannot be
+     * forged, supplied by the LLM, or influenced by anything in the conversation. It cannot
+     * return another customer's contact under any circumstance.
+     *
+     * GUEST GATE: `UserInfo.getUserType() == 'Guest'` is rejected outright, and any user
+     * without a linked Contact returns null. Both fail closed. This — not the presence of a
+     * MessagingEndUserId — is the authentication check: every messaging session has a
+     * MessagingEndUser record, guests included, so its presence proves a session exists,
+     * never that the person is signed in.
+     *
+     * Cached per transaction: one query no matter how many requests are bulkified.
+     */
+    public static Id resolveRunningUserContactId() {
+        if (runningUserContactLoaded) return runningUserContact;
+        runningUserContactLoaded = true;          // set first: never retry per row
+        runningUserContact = null;
+
+        if ('Guest'.equalsIgnoreCase(UserInfo.getUserType())) {
+            return null;                          // unauthenticated => fail closed
+        }
+        List<User> us = [
+            SELECT ContactId FROM User WHERE Id = :UserInfo.getUserId() LIMIT 1
+        ];
+        if (!us.isEmpty()) runningUserContact = us[0].ContactId;
+        return runningUserContact;                // null for internal users => fail closed
+    }
+
+    // Per-transaction cache for the fallback identity. @TestVisible so tests can reset it.
+    @TestVisible
+    private static Boolean runningUserContactLoaded = false;
+    @TestVisible
+    private static Id runningUserContact = null;
+
+    /**
      * Identity derivation runs WITHOUT SHARING, deliberately and narrowly.
      *
      * WHY: the running identity is the Agentforce service user, which has no sharing
@@ -141,14 +184,31 @@ public with sharing class PolicyAccessService {
             Set<Id> userIds = new Set<Id>();
             Set<Id> meuIds = meuIdToRaw.keySet();
             
-            for (MessagingEndUser meu : [
-                SELECT Id, AuthenticatedEndUserId
-                FROM MessagingEndUser
-                WHERE Id IN :meuIds
-            ]) {
-                if (meu.AuthenticatedEndUserId == null) continue;   // GUEST => fail closed
-                meuToUser.put(meu.Id, meu.AuthenticatedEndUserId);
-                userIds.add(meu.AuthenticatedEndUserId);
+            try {
+                for (MessagingEndUser meu : [
+                    SELECT Id, AuthenticatedEndUserId
+                    FROM MessagingEndUser
+                    WHERE Id IN :meuIds
+                ]) {
+                    if (meu.AuthenticatedEndUserId == null) continue;   // GUEST => fail closed
+                    meuToUser.put(meu.Id, meu.AuthenticatedEndUserId);
+                    userIds.add(meu.AuthenticatedEndUserId);
+                }
+            } catch (System.QueryException e) {
+                // MessagingEndUser is not available to every license — Customer Community
+                // Plus among them — so this THROWS rather than returning nothing, and the
+                // raw error is the near-undebuggable "Variable does not exist: tmpVar1".
+                // That is the normal case on authenticated Experience Cloud messaging,
+                // where Agentforce runs actions as the signed-in customer.
+                //
+                // Return empty and let the caller fall back to the running user's own
+                // contact (resolveRunningUserContactId). Logged, not silent, because a
+                // failure here in an AGENT-user context would mean something is wrong.
+                System.debug(LoggingLevel.ERROR,
+                    'MessagingEndUser unreadable for running user '
+                    + UserInfo.getUserName() + ' (' + UserInfo.getUserType()
+                    + '); falling back to running-user identity. ' + e.getMessage());
+                return out;
             }
             if (userIds.isEmpty()) return out;
 
@@ -360,7 +420,7 @@ public with sharing class PolicyAccessService {
                 m.put('deductible',         p.Deductable__c);
                 m.put('sumInsured',         p.Sum_Insured__c);
                 m.put('daysToExpiration',   p.Expiration_Date__c == null
-                                              ? null : today.daysBetween(p.Expiration_Date__c));
+                                              ? null : today.daysBetween(p.Expiration_Date__c.date()));
                 m.put('daysToNextPayment',  p.Next_Payment_Due_Date__c == null
                                               ? null : today.daysBetween(p.Next_Payment_Due_Date__c));
             }
@@ -372,10 +432,6 @@ public with sharing class PolicyAccessService {
         r.policies     = JSON.serialize(out);
         r.policiesHtml = toHtml(rows, detailed);
         r.policiesText = toText(rows, detailed);
-    }
-
-    private static String dateStr(Date d) {
-        return d == null ? null : String.valueOf(d);
     }
 
     private static String dateStr(Datetime dt) {

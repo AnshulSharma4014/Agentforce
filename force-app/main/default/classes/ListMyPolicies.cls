@@ -45,6 +45,14 @@ public with sharing class ListMyPolicies {
                 ? null
                 : resolved.get(req.messagingEndUserId);
 
+            // Fallback: the messaging chain is unreadable when Agentforce runs the action
+            // as the signed-in customer. Then the running user IS the customer, so use
+            // their own contact. Never another's; guests and contactless users get null
+            // and continue to fail closed.
+            if (contactId == null) {
+                contactId = PolicyAccessService.resolveRunningUserContactId();
+            }
+
             out.add(PolicyAccessService.listPolicies(
                 contactId,                          // null => fail closed
                 req == null ? null : req.scope,
