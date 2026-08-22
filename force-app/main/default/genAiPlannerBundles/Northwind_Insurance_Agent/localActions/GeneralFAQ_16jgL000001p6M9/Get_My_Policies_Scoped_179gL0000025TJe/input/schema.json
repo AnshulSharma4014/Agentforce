@@ -1,0 +1,28 @@
+{
+  "required" : [ "messagingEndUserId" ],
+  "unevaluatedProperties" : false,
+  "properties" : {
+    "messagingEndUserId" : {
+      "title" : "Messaging End User Id (bind to $Context.MessagingEndUserId)",
+      "description" : "Authenticated user's messaging User id",
+      "lightning:type" : "lightning__textType",
+      "lightning:isPII" : false,
+      "copilotAction:isUserInput" : false
+    },
+    "policyNumber" : {
+      "title" : "Specific Policy Number (optional; exact match)",
+      "description" : "Policy Number of the policy",
+      "lightning:type" : "lightning__textType",
+      "lightning:isPII" : false,
+      "copilotAction:isUserInput" : false
+    },
+    "scope" : {
+      "title" : "Scope: CURRENT (default) | HISTORICAL | ALL",
+      "description" : "Types of the policies meaning retired, active or pending.",
+      "lightning:type" : "lightning__textType",
+      "lightning:isPII" : false,
+      "copilotAction:isUserInput" : false
+    }
+  },
+  "lightning:type" : "lightning__objectType"
+}

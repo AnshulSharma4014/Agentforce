@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PermissionSet xmlns="http://soap.sforce.com/2006/04/metadata">
+    <description>Allows custom permissions for Agentforce Agent : Northwind_Insurance_Agent&apos;s agent user : northwind_insurance_agent@00dgl00000tam3p2075583606.ext.</description>
+    <hasActivationRequired>false</hasActivationRequired>
+    <label>Northwind_Insurance_Agent1827240540 Permissions</label>
+    <license>Einstein Agent</license>
+</PermissionSet>

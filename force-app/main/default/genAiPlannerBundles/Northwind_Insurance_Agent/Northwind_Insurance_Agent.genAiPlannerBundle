@@ -1,0 +1,214 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<GenAiPlannerBundle xmlns="http://soap.sforce.com/2006/04/metadata" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <attributeMappings>
+        <attributeName>GeneralFAQ_16jgL000001p6M9.Get_My_Policies_Scoped_179gL0000025TJe.input_messagingEndUserId</attributeName>
+        <attributeType>CustomPluginFunctionAttribute</attributeType>
+        <mappingTargetName>EndUserId</mappingTargetName>
+        <mappingType>ContextVariable</mappingType>
+    </attributeMappings>
+    <description>Deliver personalized customer interactions with an autonomous AI agent. Agentforce Service Agent intelligently helps Northwind policyholders with questions about coverage, exclusions, and claims.</description>
+    <localActionLinks>
+        <genAiFunctionName>AnswerQuestionsWithKnowledge_16jgL000001p6M9</genAiFunctionName>
+    </localActionLinks>
+    <localTopicLinks>
+        <genAiPluginName>Escalation_16jgL000001p6M9</genAiPluginName>
+    </localTopicLinks>
+    <localTopicLinks>
+        <genAiPluginName>GeneralFAQ_16jgL000001p6M9</genAiPluginName>
+    </localTopicLinks>
+    <localTopics>
+        <fullName>Escalation_16jgL000001p6M9</fullName>
+        <canEscalate>true</canEscalate>
+        <description>Handles requests from users who want to transfer or escalate their conversation to a live human agent.</description>
+        <developerName>Escalation_16jgL000001p6M9</developerName>
+        <genAiPluginInstructions>
+            <description>If a user explicitly asks to transfer to a live agent, escalate the conversation.</description>
+            <developerName>escalateonrequest</developerName>
+            <language xsi:nil="true"/>
+            <masterLabel>escalate-on-request</masterLabel>
+            <sortOrder>0</sortOrder>
+        </genAiPluginInstructions>
+        <genAiPluginInstructions>
+            <description>If escalation to a live agent fails for any reason, acknowledge the issue and ask the user whether they would like to log a support case instead.</description>
+            <developerName>promptonescalationfailure</developerName>
+            <language xsi:nil="true"/>
+            <masterLabel>prompt-on-escalation-failure</masterLabel>
+            <sortOrder>1</sortOrder>
+        </genAiPluginInstructions>
+        <language>en_US</language>
+        <localDeveloperName>Escalation</localDeveloperName>
+        <masterLabel>Escalation</masterLabel>
+        <pluginType>Topic</pluginType>
+        <scope>Your job is to transfer the conversation to a live agent if a user explicitly asks for human assistance or has a complex issue that requires human intervention. If escalation fails, ask the user whether they would like to log a support case so the issue is recorded for follow-up.</scope>
+        <source>SvcCopilotTmpl__Escalation</source>
+    </localTopics>
+    <localTopics>
+        <fullName>GeneralFAQ_16jgL000001p6M9</fullName>
+        <canEscalate>false</canEscalate>
+        <description>Use this topic for any question about Northwind Insurance policies — both
+general policy-document questions and questions about the user&apos;s own policies.
+
+General: what is or isn&apos;t covered, exclusions, deductibles, limits, premiums,
+endorsements, and how to file or handle a claim (answerable from Northwind&apos;s
+Auto and Home policy documents).
+
+Personal/account: listing the user&apos;s own policies, looking up a specific policy
+by number, or their policy status, premium, deductible, sum insured, coverage
+details, payment due dates, renewal, or expiration.</description>
+        <developerName>GeneralFAQ_16jgL000001p6M9</developerName>
+        <genAiPluginInstructions>
+            <description>If the customer&apos;s question is too vague or general, ask for more details and clarification to give a better answer.</description>
+            <developerName>requestmoredetails</developerName>
+            <language xsi:nil="true"/>
+            <masterLabel>request-more-details</masterLabel>
+            <sortOrder>0</sortOrder>
+        </genAiPluginInstructions>
+        <genAiPluginInstructions>
+            <description>If you are unable to help the customer even after asking clarifying questions, ask if they want to escalate this issue to a live agent.</description>
+            <developerName>unabletohelpafterclarifying</developerName>
+            <language xsi:nil="true"/>
+            <masterLabel>unable-to-help-after-clarifying</masterLabel>
+            <sortOrder>1</sortOrder>
+        </genAiPluginInstructions>
+        <genAiPluginInstructions>
+            <description>If you are unable to answer customer&apos;s questions, ask if they want to escalate this issue to a live agent.</description>
+            <developerName>unabletoanswerquestions</developerName>
+            <language xsi:nil="true"/>
+            <masterLabel>unable-to-answer-questions</masterLabel>
+            <sortOrder>2</sortOrder>
+        </genAiPluginInstructions>
+        <genAiPluginInstructions>
+            <description>Never provide generic information, advice or troubleshooting steps, unless retrieved from searching knowledge articles.</description>
+            <developerName>avoidgenericinformation</developerName>
+            <language xsi:nil="true"/>
+            <masterLabel>avoid-generic-information</masterLabel>
+            <sortOrder>3</sortOrder>
+        </genAiPluginInstructions>
+        <genAiPluginInstructions>
+            <description>Include sources in your response when available from the knowledge articles, otherwise proceed without them.</description>
+            <developerName>includearticlesources</developerName>
+            <language xsi:nil="true"/>
+            <masterLabel>include-article-sources</masterLabel>
+            <sortOrder>4</sortOrder>
+        </genAiPluginInstructions>
+        <genAiPluginInstructions>
+            <description>When a user asks about insurance coverage, what is or isn&apos;t covered, exclusions, deductibles, limits, or how to file or handle a claim, use the NorthWind RAG action to answer from the grounded Northwind policy documents. If the action returns that it doesn&apos;t have the information, tell the user you don&apos;t have that detail and offer to escalate.</description>
+            <developerName>instructions_0_1782665248775</developerName>
+            <language>en_US</language>
+            <masterLabel>instructions_0_1782665248775</masterLabel>
+            <sortOrder>5</sortOrder>
+        </genAiPluginInstructions>
+        <genAiPluginInstructions>
+            <description>When the user asks about their own policies or account: to list their policies, look up a specific policy by number, or ask about their coverage details, status, premium, deductible, sum insured, payment due dates, renewal, or expiration.</description>
+            <developerName>instructions_0_1786028008093</developerName>
+            <language>en_US</language>
+            <masterLabel>instructions_0_1786028008093</masterLabel>
+            <sortOrder>6</sortOrder>
+        </genAiPluginInstructions>
+        <language>en_US</language>
+        <localActionLinks>
+            <functionName>Get_My_Policies_Scoped_179gL0000025TJe</functionName>
+        </localActionLinks>
+        <localActionLinks>
+            <functionName>Northwind_RAG_Flex_179gL0000025TJe</functionName>
+        </localActionLinks>
+        <localActions>
+            <fullName>Northwind_RAG_Flex_179gL0000025TJe</fullName>
+            <description>Answers Northwind policyholder questions about coverage, exclusions, deductibles, limits, and the claims process by retrieving and grounding on official policy documents.</description>
+            <developerName>Northwind_RAG_Flex_179gL0000025TJe</developerName>
+            <invocationTarget>Northwind_RAG_Flex</invocationTarget>
+            <invocationTargetType>generatePromptResponse</invocationTargetType>
+            <isConfirmationRequired>false</isConfirmationRequired>
+            <isIncludeInProgressIndicator>true</isIncludeInProgressIndicator>
+            <localDeveloperName>Northwind_RAG_Flex</localDeveloperName>
+            <masterLabel>Northwind RAG Flex</masterLabel>
+            <progressIndicatorMessage>Ruk jaa yaar...</progressIndicatorMessage>
+        </localActions>
+        <localActions>
+            <fullName>Get_My_Policies_Scoped_179gL0000025TJe</fullName>
+            <description>Resolves the verified contact from the messaging session, then returns that contact&apos;s policies.</description>
+            <developerName>Get_My_Policies_Scoped_179gL0000025TJe</developerName>
+            <invocationTarget>GetMyPolicies</invocationTarget>
+            <invocationTargetType>apex</invocationTargetType>
+            <isConfirmationRequired>false</isConfirmationRequired>
+            <isIncludeInProgressIndicator>true</isIncludeInProgressIndicator>
+            <localDeveloperName>Get_My_Policies_Scoped</localDeveloperName>
+            <mappingAttributes>
+                <label>messagingEndUserId</label>
+                <name>input_messagingEndUserId</name>
+                <parameterName>messagingEndUserId</parameterName>
+                <parameterType>input</parameterType>
+            </mappingAttributes>
+            <masterLabel>Get My Policies (Scoped)</masterLabel>
+            <progressIndicatorMessage>Searching the entire cosmos, just for you ☺️.....</progressIndicatorMessage>
+        </localActions>
+        <localDeveloperName>GeneralFAQ</localDeveloperName>
+        <masterLabel>Northwind Policy FAQ</masterLabel>
+        <pluginType>Topic</pluginType>
+        <scope>Handle two kinds of policyholder questions about Northwind Auto and Home insurance:
+
+1. The user&apos;s OWN policies or account — listing their policies, looking up a
+specific policy by number, or asking about their status, premium, deductible,
+sum insured, coverage details, payment due dates, renewal, or expiration.
+For these, you MUST call Get My Policies (Scoped). Do NOT use the NorthWind
+RAG action for the user&apos;s own records.
+
+2. General questions about Northwind policy documents — what is or isn&apos;t
+covered, exclusions, deductibles, limits, and the claims process in general.
+For these, call the NorthWind RAG action and answer using only the grounded
+retrieved content. Do not use general knowledge or external sources.
+
+If the relevant action returns no result, tell the user you don&apos;t have that
+information and offer to escalate to a human agent.</scope>
+        <source>SvcCopilotTmpl__GeneralFAQ</source>
+    </localTopics>
+    <masterLabel>Northwind Insurance Agent</masterLabel>
+    <plannerActions>
+        <fullName>AnswerQuestionsWithKnowledge_16jgL000001p6M9</fullName>
+        <description>Answers questions about company policies and procedures, troubleshooting steps, or product information. For example: “What is your return policy?” “How do I fix an issue?” or “What features does a product have?”</description>
+        <developerName>AnswerQuestionsWithKnowledge_16jgL000001p6M9</developerName>
+        <invocationTarget>streamKnowledgeSearch</invocationTarget>
+        <invocationTargetType>standardInvocableAction</invocationTargetType>
+        <isConfirmationRequired>false</isConfirmationRequired>
+        <isIncludeInProgressIndicator>true</isIncludeInProgressIndicator>
+        <localDeveloperName>AnswerQuestionsWithKnowledge</localDeveloperName>
+        <masterLabel>Answer Questions with Knowledge</masterLabel>
+        <progressIndicatorMessage>Getting answers</progressIndicatorMessage>
+        <source>EmployeeCopilot__AnswerQuestionsWithKnowledge</source>
+    </plannerActions>
+    <plannerSurfaces>
+        <adaptiveResponseAllowed>true</adaptiveResponseAllowed>
+        <callRecordingAllowed>false</callRecordingAllowed>
+        <surface>SurfaceAction__CustomerWebClient</surface>
+        <surfaceType>CustomerWebClient</surfaceType>
+    </plannerSurfaces>
+    <plannerSurfaces>
+        <adaptiveResponseAllowed>true</adaptiveResponseAllowed>
+        <callRecordingAllowed>false</callRecordingAllowed>
+        <surface>SurfaceAction__Messaging</surface>
+        <surfaceType>Messaging</surfaceType>
+    </plannerSurfaces>
+    <plannerType>AiCopilot__ReAct</plannerType>
+    <ruleExpressions>
+        <conditions>
+            <leftOperand>EndUserContactId</leftOperand>
+            <leftOperandType>ContextVariable</leftOperandType>
+            <operator>isNotEmpty</operator>
+        </conditions>
+        <expressionLabel>End User Id is not empty</expressionLabel>
+        <expressionName>End_User_Id_is_not_empty</expressionName>
+        <expressionType>sel</expressionType>
+    </ruleExpressions>
+    <ruleExpressions>
+        <conditions>
+            <leftOperand>isVerified</leftOperand>
+            <leftOperandType>Variable</leftOperandType>
+            <operator>equal</operator>
+            <rightOperandValue>true</rightOperandValue>
+        </conditions>
+        <expression>Verified_User</expression>
+        <expressionLabel>Verified User</expressionLabel>
+        <expressionName>Verified_User</expressionName>
+        <expressionType>sel</expressionType>
+    </ruleExpressions>
+</GenAiPlannerBundle>

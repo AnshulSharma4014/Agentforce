@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<GenAiPromptTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <developerName>NorthWind_RAG</developerName>
+    <masterLabel>NorthWind RAG</masterLabel>
+    <overridable>false</overridable>
+    <templateVersions>
+        <content>You are a Northwind Insurance assistant. Answer the QUESTION using ONLY
+the information in CONTEXT below.
+
+QUESTION:
+{!$Input:Query}
+
+CONTEXT:
+{!$EinsteinSearch:Northwind_Insurance_New_Retriever_1Cx_m3pf6c6dea6.results}
+
+If CONTEXT does not contain the answer, reply exactly:
+&quot;I don&apos;t have that information in the policy documents.&quot;
+Do not infer coverage details that aren&apos;t explicitly stated.
+</content>
+        <fileDroppingStrategy>{&quot;dropFilesBy&quot;:&quot;LAST_MODIFIED_DATE&quot;,&quot;dropFileStartingWith&quot;:&quot;OLDEST&quot;}</fileDroppingStrategy>
+        <inputs>
+            <apiName>Query</apiName>
+            <definition>primitive://String</definition>
+            <referenceName>Input:Query</referenceName>
+            <required>true</required>
+        </inputs>
+        <inputs>
+            <apiName>RetrieverIdOrName</apiName>
+            <definition>primitive://String</definition>
+            <referenceName>Input:RetrieverIdOrName</referenceName>
+            <required>true</required>
+        </inputs>
+        <isCitationEnabled>false</isCitationEnabled>
+        <primaryModel>sfdc_ai__DefaultGPT5Mini</primaryModel>
+        <status>Published</status>
+        <templateDataProviders>
+            <definition>invocable://getEinsteinRetrieverResults/Northwind_Insurance_New_Retriever_1Cx_m3pf6c6dea6</definition>
+            <label>Northwind_Insurance_New Retriever</label>
+            <parameters>
+                <definition>primitive://String</definition>
+                <isRequired>true</isRequired>
+                <parameterName>searchText</parameterName>
+                <valueExpression>{!$Input:Query}</valueExpression>
+            </parameters>
+            <parameters>
+                <definition>primitive://List&lt;String&gt;</definition>
+                <isRequired>false</isRequired>
+                <parameterName>outputFieldNames</parameterName>
+                <valueExpression>[&quot;Chunk&quot;]</valueExpression>
+            </parameters>
+            <parameters>
+                <definition>primitive://Integer</definition>
+                <isRequired>false</isRequired>
+                <parameterName>resultCount</parameterName>
+                <valueExpression>5</valueExpression>
+            </parameters>
+            <referenceName>EinsteinSearch:Northwind_Insurance_New_Retriever_1Cx_m3pf6c6dea6</referenceName>
+        </templateDataProviders>
+        <versionIdentifier>Pf9b4ExBZFgWnnACnrhpMRGKw6l0xLa5/FYDnobimi0=_1</versionIdentifier>
+    </templateVersions>
+    <templateVersions>
+        <content>You are a Northwind Insurance assistant. Answer the QUESTION using ONLY
+the information in CONTEXT below.
+
+QUESTION:
+{!$Input:Query}
+
+CONTEXT:
+{!$EinsteinSearch:Northwind_Insurance_New_Retriever_1Cx_m3pf6c6dea6.results}
+
+If CONTEXT does not contain the answer, reply exactly:
+&quot;I don&apos;t have that information in the policy documents.&quot;
+Do not infer coverage details that aren&apos;t explicitly stated and do not populate the source_id when there is no answer.
+</content>
+        <fileDroppingStrategy>{&quot;dropFilesBy&quot;:&quot;LAST_MODIFIED_DATE&quot;,&quot;dropFileStartingWith&quot;:&quot;OLDEST&quot;}</fileDroppingStrategy>
+        <inputs>
+            <apiName>Query</apiName>
+            <definition>primitive://String</definition>
+            <referenceName>Input:Query</referenceName>
+            <required>true</required>
+        </inputs>
+        <inputs>
+            <apiName>RetrieverIdOrName</apiName>
+            <definition>primitive://String</definition>
+            <referenceName>Input:RetrieverIdOrName</referenceName>
+            <required>true</required>
+        </inputs>
+        <isCitationEnabled>false</isCitationEnabled>
+        <primaryModel>sfdc_ai__DefaultGPT5Mini</primaryModel>
+        <status>Published</status>
+        <templateDataProviders>
+            <definition>invocable://getEinsteinRetrieverResults/Northwind_Insurance_New_Retriever_1Cx_m3pf6c6dea6</definition>
+            <label>Northwind_Insurance_New Retriever</label>
+            <parameters>
+                <definition>primitive://String</definition>
+                <isRequired>true</isRequired>
+                <parameterName>searchText</parameterName>
+                <valueExpression>{!$Input:Query}</valueExpression>
+            </parameters>
+            <parameters>
+                <definition>primitive://List&lt;String&gt;</definition>
+                <isRequired>false</isRequired>
+                <parameterName>outputFieldNames</parameterName>
+                <valueExpression>[&quot;Chunk&quot;]</valueExpression>
+            </parameters>
+            <parameters>
+                <definition>primitive://Integer</definition>
+                <isRequired>false</isRequired>
+                <parameterName>resultCount</parameterName>
+                <valueExpression>5</valueExpression>
+            </parameters>
+            <referenceName>EinsteinSearch:Northwind_Insurance_New_Retriever_1Cx_m3pf6c6dea6</referenceName>
+        </templateDataProviders>
+        <templateFormat>FormulaExpression</templateFormat>
+        <versionIdentifier>Pf9b4ExBZFgWnnACnrhpMRGKw6l0xLa5/FYDnobimi0=_2</versionIdentifier>
+    </templateVersions>
+    <templateVersions>
+        <content>You are a Northwind Insurance assistant. Answer the QUESTION using ONLY
+the information in CONTEXT below.
+
+QUESTION:
+{!$Input:Query}
+
+CONTEXT:
+{!$EinsteinSearch:Northwind_Insurance_New_Retriever_1Cx_m3pf6c6dea6.results}
+
+If CONTEXT does not contain the answer, reply exactly:
+&quot;I don&apos;t have that information in the policy documents.&quot;
+Do not infer coverage details that aren&apos;t explicitly stated and do not populate the source_id when there is no answer.
+</content>
+        <fileDroppingStrategy>{&quot;dropFilesBy&quot;:&quot;LAST_MODIFIED_DATE&quot;,&quot;dropFileStartingWith&quot;:&quot;OLDEST&quot;}</fileDroppingStrategy>
+        <inputs>
+            <apiName>RetrieverIdOrName</apiName>
+            <definition>primitive://String</definition>
+            <referenceName>Input:RetrieverIdOrName</referenceName>
+            <required>true</required>
+        </inputs>
+        <inputs>
+            <apiName>Query</apiName>
+            <definition>primitive://String</definition>
+            <referenceName>Input:Query</referenceName>
+            <required>true</required>
+        </inputs>
+        <isCitationEnabled>false</isCitationEnabled>
+        <primaryModel>sfdc_ai__DefaultGPT5Mini</primaryModel>
+        <status>Draft</status>
+        <templateDataProviders>
+            <definition>invocable://getEinsteinRetrieverResults/Northwind_Insurance_New_Retriever_1Cx_m3pf6c6dea6</definition>
+            <label>Northwind_Insurance_New Retriever</label>
+            <parameters>
+                <definition>primitive://String</definition>
+                <isRequired>true</isRequired>
+                <parameterName>searchText</parameterName>
+                <valueExpression>{!$Input:Query}</valueExpression>
+            </parameters>
+            <parameters>
+                <definition>primitive://List&lt;String&gt;</definition>
+                <isRequired>false</isRequired>
+                <parameterName>outputFieldNames</parameterName>
+                <valueExpression>[&quot;Chunk&quot;]</valueExpression>
+            </parameters>
+            <parameters>
+                <definition>primitive://Integer</definition>
+                <isRequired>false</isRequired>
+                <parameterName>resultCount</parameterName>
+                <valueExpression>5</valueExpression>
+            </parameters>
+            <referenceName>EinsteinSearch:Northwind_Insurance_New_Retriever_1Cx_m3pf6c6dea6</referenceName>
+        </templateDataProviders>
+        <templateFormat>FormulaExpression</templateFormat>
+        <versionIdentifier>Pf9b4ExBZFgWnnACnrhpMRGKw6l0xLa5/FYDnobimi0=_3</versionIdentifier>
+    </templateVersions>
+    <type>einstein_gpt__knowledgeAnswers</type>
+    <visibility>Global</visibility>
+</GenAiPromptTemplate>

@@ -1,0 +1,30 @@
+{
+  "unevaluatedProperties" : false,
+  "properties" : {
+    "do_policies_exist" : {
+      "title" : "Policies Found",
+      "description" : "False means no matching policies were returned. Say none were found; do not speculate.",
+      "lightning:type" : "lightning__booleanType",
+      "lightning:isPII" : false,
+      "copilotAction:isDisplayable" : false,
+      "copilotAction:isUsedByPlanner" : true
+    },
+    "policies_in_plain_text" : {
+      "title" : "Policies",
+      "description" : "The customer's policy details. This is the only source of their policy data.",
+      "lightning:type" : "lightning__textType",
+      "lightning:isPII" : false,
+      "copilotAction:isDisplayable" : false,
+      "copilotAction:isUsedByPlanner" : true
+    },
+    "truncated" : {
+      "title" : "More Exist",
+      "description" : "True means the list is partial and more policies exist. Tell the customer the list is incomplete.",
+      "lightning:type" : "lightning__booleanType",
+      "lightning:isPII" : false,
+      "copilotAction:isDisplayable" : false,
+      "copilotAction:isUsedByPlanner" : true
+    }
+  },
+  "lightning:type" : "lightning__objectType"
+}

@@ -1,0 +1,21 @@
+{
+  "required" : [ "policyNumber" ],
+  "unevaluatedProperties" : false,
+  "properties" : {
+    "messagingEndUserId" : {
+      "title" : "Messaging End User Id (bind to $Context.MessagingEndUserId)",
+      "description" : "Messaging End User Id (bind to $Context.MessagingEndUserId)",
+      "lightning:type" : "lightning__textType",
+      "lightning:isPII" : false,
+      "copilotAction:isUserInput" : false
+    },
+    "policyNumber" : {
+      "title" : "Policy Number (as the user gave it — partial or prefixed is fine)",
+      "description" : "Policy Number (as the user gave it — partial or prefixed is fine)",
+      "lightning:type" : "lightning__textType",
+      "lightning:isPII" : false,
+      "copilotAction:isUserInput" : false
+    }
+  },
+  "lightning:type" : "lightning__objectType"
+}

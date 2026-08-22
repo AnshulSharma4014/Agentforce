@@ -1,0 +1,35 @@
+{
+  "required" : [ ],
+  "unevaluatedProperties" : false,
+  "properties" : {
+    "callableApexAction" : {
+      "title" : "callableApexAction",
+      "description" : "The callable apex action from the LLM",
+      "lightning:type" : "lightning__textType",
+      "lightning:isPII" : false,
+      "copilotAction:isUserInput" : false
+    },
+    "endUserId" : {
+      "title" : "endUserId",
+      "description" : "endUserId",
+      "lightning:type" : "lightning__textType",
+      "lightning:isPII" : false,
+      "copilotAction:isUserInput" : false
+    },
+    "policyNumber" : {
+      "title" : "policyNumber",
+      "description" : "Policy number for Details",
+      "lightning:type" : "lightning__textType",
+      "lightning:isPII" : false,
+      "copilotAction:isUserInput" : false
+    },
+    "policyScope" : {
+      "title" : "policyScope",
+      "description" : "The scope of the policy (active, inactive, cancelled).",
+      "lightning:type" : "lightning__textType",
+      "lightning:isPII" : false,
+      "copilotAction:isUserInput" : false
+    }
+  },
+  "lightning:type" : "lightning__objectType"
+}

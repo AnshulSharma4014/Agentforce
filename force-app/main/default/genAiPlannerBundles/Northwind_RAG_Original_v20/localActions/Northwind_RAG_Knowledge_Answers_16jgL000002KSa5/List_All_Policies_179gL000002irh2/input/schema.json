@@ -1,0 +1,21 @@
+{
+  "required" : [ ],
+  "unevaluatedProperties" : false,
+  "properties" : {
+    "messagingEndUserId" : {
+      "title" : "Messaging End User Id (bind to $Context.MessagingEndUserId)",
+      "description" : "Binds to  $Context.MessagingEndUserId",
+      "lightning:type" : "lightning__textType",
+      "lightning:isPII" : false,
+      "copilotAction:isUserInput" : false
+    },
+    "scope" : {
+      "title" : "Scope: ACTIVE (default) | CURRENT | HISTORICAL | ALL | explicit status list",
+      "description" : "Scope: ACTIVE (default) | CURRENT | HISTORICAL | ALL | explicit status list",
+      "lightning:type" : "lightning__textType",
+      "lightning:isPII" : false,
+      "copilotAction:isUserInput" : false
+    }
+  },
+  "lightning:type" : "lightning__objectType"
+}
