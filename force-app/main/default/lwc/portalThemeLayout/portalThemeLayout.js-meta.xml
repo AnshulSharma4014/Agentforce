@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<LightningComponentBundle xmlns="http://soap.sforce.com/2006/04/metadata">
+    <apiVersion>67.0</apiVersion>
+    <isExposed>true</isExposed>
+    <masterLabel>Northwind Theme Layout</masterLabel>
+    <description>Site header and footer styled to match the Northwind portal. Wraps every page assigned to this theme layout. Brand name, header links and footer note are set as defaults in portalThemeLayout.js — Theme Layout targets do not accept builder properties.</description>
+    <targets>
+        <target>lightningCommunity__Theme_Layout</target>
+    </targets>
+</LightningComponentBundle>

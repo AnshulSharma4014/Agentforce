@@ -1,0 +1,81 @@
+<template>
+    <div class="shell">
+
+        <!-- ============ SITE HEADER ============ -->
+        <header class="site-header">
+            <div class="site-header__inner">
+                <a class="brand" href={homeUrl}>
+                    <img class="brand__mark" src={logoUrl} alt="Northwind Insurance" />
+                    <span class="brand__name">{brandName}</span>
+                </a>
+
+                <!-- <nav lwc:if={isKnownUser} class={navClass} aria-label="Site">
+                    <template for:each={links} for:item="link">
+                        <a key={link.key} class="site-nav__link" href={link.url}>{link.label}</a>
+                    </template>
+                </nav> -->
+
+                <div class="site-header__actions">
+                    <template lwc:if={showAuthAction}>
+                        <template lwc:if={isGuestUser}>
+                            <a class="btn btn--solid" href={loginUrl}>{headerAuthAction}</a>
+                        </template>
+                        <template lwc:else>
+                            <button class="btn btn--ghost" onclick={handleLogout}>
+                                <span class="btn__icon"></span>
+                                <span>Logout</span>
+                            </button>
+                        </template>
+                    </template>
+
+                    <button class="burger" onclick={toggleMenu} aria-label="Toggle menu"
+                            aria-expanded={menuExpanded}>
+                        <span></span><span></span><span></span>
+                    </button>
+                </div>
+            </div>
+        </header>
+
+        <!-- ============ PAGE CONTENT ============ -->
+        <main class="site-main">
+            <slot></slot>
+        </main>
+
+        <!-- ============ SITE FOOTER ============ -->
+        <footer class="site-footer">
+            <div class="site-footer__inner">
+                <div class="site-footer__brand">
+                    <div class="brand brand--footer">
+                        <img class="brand__mark" src={logoUrl} alt="Northwind Insurance" />
+                        <span class="brand__name">{brandName}</span>
+                    </div>
+                    <p class="site-footer__note">{footerNote}</p>
+                </div>
+
+                <!-- <div class="site-footer__cols">
+                    <template for:each={footerColumns} for:item="col">
+                        <div key={col.key} class="fcol">
+                            <p class="fcol__title">{col.title}</p>
+                            <ul class="fcol__list">
+                                <template for:each={col.items} for:item="item">
+                                    <li key={item.key}>
+                                        <a class="fcol__link" href={item.url}>{item.label}</a>
+                                    </li>
+                                </template>
+                            </ul>
+                        </div>
+                    </template>
+                </div> -->
+            </div>
+
+            <div class="site-footer__bar">
+                <span>&copy; {year} {brandName}. All rights reserved.</span>
+                <span class="site-footer__legal">
+                    <a class="fcol__link" href='#'>Privacy</a>
+                    <span class="dot" aria-hidden="true"></span>
+                    <a class="fcol__link" href='#'>Terms</a>
+                </span>
+            </div>
+        </footer>
+    </div>
+</template>

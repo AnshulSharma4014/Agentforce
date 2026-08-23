@@ -1,0 +1,404 @@
+/*
+ * Tokens are re-declared here rather than shared with c/policyPortal: LWC scopes styles
+ * per component, and a shared CSS module would couple the site chrome to a page component.
+ * Keep the two palettes in step — they are deliberately identical.
+ */
+:host {
+    --mint-50: #f2faf6;
+    --mint-100: #e3f4ec;
+    --mint-200: #cdead9;
+    --mint-600: #17976a;
+    --mint-700: #0f7a55;
+
+    --ink-900: #0f1f1a;
+    --ink-700: #33473f;
+    --ink-500: #6b7f77;
+    --ink-300: #a3b3ac;
+
+    --line: #e6efea;
+    --surface: #ffffff;
+    --shell: #eaf6f0;
+
+    --footer-bg: #0d2a21;
+    --footer-line: #1d4638;
+    --footer-ink: #cfe2d9;
+
+    --radius-md: 14px;
+
+    display: block;
+    background: var(--shell);
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    color: var(--ink-900);
+}
+
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
+
+.shell {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    background: var(--shell);
+}
+
+/* ================= header ================= */
+
+.site-header {
+    position: sticky;
+    top: 0;
+    z-index: 30;
+    background: rgba(255, 255, 255, 0.86);
+    backdrop-filter: saturate(1.4) blur(10px);
+    -webkit-backdrop-filter: saturate(1.4) blur(10px);
+    border-bottom: 1px solid var(--line);
+}
+
+.site-header__inner {
+    display: flex;
+    align-items: center;
+    gap: 22px;
+    max-width: 1440px;
+    margin: 0 auto;
+    padding: 14px 34px;
+}
+
+.brand {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    text-decoration: none;
+    color: inherit;
+    flex: 0 0 auto;
+}
+
+/* Company_Branding static resource. Height is fixed and width left auto so a
+   wide wordmark keeps its aspect ratio instead of being squashed into a square. */
+.brand__mark {
+    height: 32px;
+    width: auto;
+    max-width: 150px;
+    flex: 0 0 auto;
+    object-fit: contain;
+    display: block;
+}
+
+.brand__name {
+    font-weight: 700;
+    font-size: 16.5px;
+    letter-spacing: -0.2px;
+    white-space: nowrap;
+}
+
+/* ---- nav ---- */
+
+.site-nav {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    flex: 1 1 auto;
+}
+
+.site-nav__link {
+    position: relative;
+    padding: 9px 14px;
+    border-radius: 999px;
+    color: var(--ink-700);
+    font-size: 14.5px;
+    font-weight: 550;
+    text-decoration: none;
+    transition: background 0.18s ease, color 0.18s ease;
+}
+
+.site-nav__link::after {
+    content: '';
+    position: absolute;
+    left: 50%;
+    bottom: 3px;
+    width: 0;
+    height: 2px;
+    border-radius: 2px;
+    background: var(--mint-600);
+    transform: translateX(-50%);
+    transition: width 0.2s ease;
+}
+
+.site-nav__link:hover {
+    background: var(--mint-50);
+    color: var(--ink-900);
+}
+
+.site-nav__link:hover::after {
+    width: 18px;
+}
+
+.site-nav__link:focus-visible {
+    outline: 2px solid var(--mint-600);
+    outline-offset: 2px;
+}
+
+/* ---- actions ---- */
+
+.site-header__actions {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-left: auto;
+}
+
+.btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 9px 18px;
+    border-radius: 999px;
+    font: inherit;
+    font-size: 14px;
+    font-weight: 650;
+    text-decoration: none;
+    cursor: pointer;
+    transition: background 0.18s ease, color 0.18s ease, border-color 0.18s ease,
+        transform 0.18s ease, box-shadow 0.18s ease;
+}
+
+.btn--solid {
+    border: 0;
+    background: var(--mint-600);
+    color: #fff;
+}
+
+.btn--solid:hover {
+    background: var(--mint-700);
+    transform: translateY(-1px);
+    box-shadow: 0 10px 20px -14px rgba(15, 46, 35, 0.9);
+}
+
+.btn--ghost {
+    border: 1px solid var(--line);
+    background: var(--surface);
+    color: var(--ink-700);
+}
+
+.btn--ghost:hover {
+    border-color: #f3d3d3;
+    background: #fdecec;
+    color: #a53232;
+}
+
+.btn__icon {
+    width: 16px;
+    height: 16px;
+    background: currentColor;
+    -webkit-mask-repeat: no-repeat;
+    mask-repeat: no-repeat;
+    -webkit-mask-size: contain;
+    mask-size: contain;
+    -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='1.9' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M15 4h3a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2h-3M10 17l-5-5 5-5M5 12h11'/%3E%3C/svg%3E");
+    mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='1.9' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M15 4h3a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2h-3M10 17l-5-5 5-5M5 12h11'/%3E%3C/svg%3E");
+}
+
+.burger {
+    display: none;
+    flex-direction: column;
+    gap: 4px;
+    padding: 10px;
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    background: var(--surface);
+    cursor: pointer;
+}
+
+.burger span {
+    display: block;
+    width: 18px;
+    height: 2px;
+    border-radius: 2px;
+    background: var(--ink-700);
+}
+
+/* ================= main ================= */
+
+.site-main {
+    flex: 1 1 auto;
+    min-width: 0;
+}
+
+/* ================= footer ================= */
+
+.site-footer {
+    background: var(--footer-bg);
+    color: var(--footer-ink);
+}
+
+.site-footer__inner {
+    display: grid;
+    grid-template-columns: minmax(240px, 1.2fr) minmax(0, 2fr);
+    gap: 46px;
+    max-width: 1440px;
+    margin: 0 auto;
+    padding: 54px 34px 34px;
+}
+
+.brand--footer .brand__name {
+    color: #fff;
+}
+
+.site-footer__note {
+    margin: 14px 0 0;
+    font-size: 14px;
+    line-height: 1.6;
+    color: var(--footer-ink);
+    opacity: 0.78;
+}
+
+.site-footer__cols {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 28px;
+}
+
+.fcol__title {
+    margin: 0 0 14px;
+    font-size: 12px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.9px;
+    color: #fff;
+}
+
+.fcol__list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.fcol__link {
+    color: var(--footer-ink);
+    font-size: 14px;
+    text-decoration: none;
+    opacity: 0.82;
+    transition: opacity 0.18s ease, color 0.18s ease, padding-left 0.18s ease;
+}
+
+.fcol__link:hover {
+    opacity: 1;
+    color: #fff;
+    padding-left: 3px;
+}
+
+.fcol__link:focus-visible {
+    outline: 2px solid var(--mint-200);
+    outline-offset: 3px;
+}
+
+.site-footer__bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 14px;
+    flex-wrap: wrap;
+    max-width: 1440px;
+    margin: 0 auto;
+    padding: 18px 34px 26px;
+    border-top: 1px solid var(--footer-line);
+    font-size: 13px;
+    opacity: 0.8;
+}
+
+.site-footer__legal {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.dot {
+    width: 3px;
+    height: 3px;
+    border-radius: 50%;
+    background: currentColor;
+    opacity: 0.6;
+}
+
+/* ================= responsive ================= */
+
+@media (max-width: 900px) {
+    .site-header__inner {
+        padding: 12px 20px;
+        flex-wrap: wrap;
+    }
+
+    .burger {
+        display: flex;
+    }
+
+    .site-nav {
+        display: none;
+        order: 3;
+        width: 100%;
+        flex-direction: column;
+        align-items: stretch;
+        gap: 2px;
+        padding-top: 10px;
+        border-top: 1px solid var(--line);
+    }
+
+    .site-nav--open {
+        display: flex;
+    }
+
+    .site-nav__link {
+        border-radius: var(--radius-md);
+    }
+
+    .site-nav__link::after {
+        display: none;
+    }
+
+    .site-footer__inner {
+        grid-template-columns: 1fr;
+        gap: 32px;
+        padding: 40px 20px 26px;
+    }
+
+    .site-footer__cols {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .site-footer__bar {
+        padding: 16px 20px 24px;
+    }
+}
+
+@media (max-width: 520px) {
+    .site-footer__cols {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        transition-duration: 0.01ms !important;
+    }
+}
+
+/*
+ * The page's content region is rendered inside <slot>. LWR wraps it in its own
+ * container whose max-width comes from Theme Settings, which is what boxes the portal
+ * in. ::slotted only reaches the DIRECT children of the slot, so this lifts the
+ * constraint at that level; if the width is applied deeper, the Builder setting is the
+ * only real lever. These rules only ever REMOVE a limit, never impose one, so a
+ * narrower Builder setting still wins where it is applied further in.
+ */
+.site-main ::slotted(*) {
+    max-width: none !important;
+    width: 100%;
+    margin-left: 0;
+    margin-right: 0;
+}

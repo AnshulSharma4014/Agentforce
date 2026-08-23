@@ -1,5 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <PermissionSet xmlns="http://soap.sforce.com/2006/04/metadata">
+    <classAccesses>
+        <apexClass>GetPolicyDetails</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>ListMyPolicies</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>PolicyAccessService</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
     <dataspaceScopes>
         <customizeActivationDefinitions>false</customizeActivationDefinitions>
         <customizeAllDefinitions>false</customizeAllDefinitions>
@@ -83,6 +95,10 @@
         <field>User_Policy__c.Sum_Insured__c</field>
         <readable>true</readable>
     </fieldPermissions>
+    <flowAccesses>
+        <enabled>true</enabled>
+        <flow>Policy_Actions_for_LLM</flow>
+    </flowAccesses>
     <hasActivationRequired>false</hasActivationRequired>
     <label>Northwind Agent Policy Access</label>
     <objectPermissions>

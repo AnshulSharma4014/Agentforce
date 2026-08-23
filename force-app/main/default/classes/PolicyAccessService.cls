@@ -271,6 +271,15 @@ public with sharing class PolicyAccessService {
      * unit-tested directly with contactId values rather than through the resolver.
      */
     public static Result listPolicies(Id contactId, String scope, Integer maxRows) {
+        return listPolicies(contactId, scope, maxRows, false);
+    }
+
+    /**
+     * As above, but `detailed` adds the full field set (sum insured, premium, deductible,
+     * days-to-expiry) to each row. Rendering only — authorization is identical.
+     * Used by the customer portal, which shows more per row than a chat reply does.
+     */
+    public static Result listPolicies(Id contactId, String scope, Integer maxRows, Boolean detailed) {
         Result r = new Result();
         if (contactId == null) return r;   // FAIL CLOSED (unresolved / guest)
 
@@ -308,7 +317,7 @@ public with sharing class PolicyAccessService {
             while (rows.size() > cap) rows.remove(rows.size() - 1);
         }
 
-        populate(r, rows, false);
+        populate(r, rows, detailed == true);
         if (!r.found) {
             r.message = 'No matching policies were found on this account.';
         }

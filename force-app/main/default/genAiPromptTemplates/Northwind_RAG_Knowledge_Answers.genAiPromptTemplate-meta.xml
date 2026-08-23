@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <GenAiPromptTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
-    <activeVersionIdentifier>Pf9b4ExBZFgWnnACnrhpMRGKw6l0xLa5/FYDnobimi0=_1</activeVersionIdentifier>
+    <activeVersionIdentifier>Pf9b4ExBZFgWnnACnrhpMRGKw6l0xLa5/FYDnobimi0=_4</activeVersionIdentifier>
     <developerName>Northwind_RAG_Knowledge_Answers</developerName>
     <masterLabel>Northwind RAG Knowledge Answers</masterLabel>
     <overridable>false</overridable>
@@ -58,6 +58,185 @@ Do not infer coverage details that aren&apos;t explicitly stated and do not popu
             <referenceName>EinsteinSearch:Northwind_Insurance_New_Retriever_1Cx_m3pf6c6dea6</referenceName>
         </templateDataProviders>
         <versionIdentifier>Pf9b4ExBZFgWnnACnrhpMRGKw6l0xLa5/FYDnobimi0=_1</versionIdentifier>
+    </templateVersions>
+    <templateVersions>
+        <content>You are a Northwind Insurance assistant. Answer the QUESTION using ONLY {!$EinsteinSearch:Northwind_Documents_Retriever_1Cx_m3p50291533.results}
+the information in CONTEXT below.
+
+QUESTION:
+{!$Input:Query}
+
+CONTEXT:
+{!$EinsteinSearch:Northwind_Documents_Retriever_1Cx_m3p50291533.results}
+
+If CONTEXT does not contain the answer, reply exactly:
+&quot;I don&apos;t have that information in the policy documents.&quot;
+Do not infer coverage details that aren&apos;t explicitly stated and do not populate the source_id when there is no answer.
+</content>
+        <fileDroppingStrategy>{&quot;dropFilesBy&quot;:&quot;LAST_MODIFIED_DATE&quot;,&quot;dropFileStartingWith&quot;:&quot;OLDEST&quot;}</fileDroppingStrategy>
+        <inputs>
+            <apiName>Query</apiName>
+            <definition>primitive://String</definition>
+            <referenceName>Input:Query</referenceName>
+            <required>true</required>
+        </inputs>
+        <inputs>
+            <apiName>RetrieverIdOrName</apiName>
+            <definition>primitive://String</definition>
+            <referenceName>Input:RetrieverIdOrName</referenceName>
+            <required>true</required>
+        </inputs>
+        <isCitationEnabled>false</isCitationEnabled>
+        <primaryModel>sfdc_ai__DefaultGPT5Mini</primaryModel>
+        <status>Published</status>
+        <templateDataProviders>
+            <definition>invocable://getEinsteinRetrieverResults/Northwind_Documents_Retriever_1Cx_m3p50291533</definition>
+            <description>The latest retriever with HTML documents stored in the documents folder in AWS S3 bucket.</description>
+            <label>Northwind Documents Retriever</label>
+            <parameters>
+                <definition>primitive://String</definition>
+                <isRequired>true</isRequired>
+                <parameterName>searchText</parameterName>
+                <valueExpression>{!$Input:Query}</valueExpression>
+            </parameters>
+            <parameters>
+                <definition>primitive://List&lt;String&gt;</definition>
+                <isRequired>false</isRequired>
+                <parameterName>outputFieldNames</parameterName>
+                <valueExpression>[&quot;Chunk&quot;]</valueExpression>
+            </parameters>
+            <parameters>
+                <definition>primitive://Integer</definition>
+                <isRequired>false</isRequired>
+                <parameterName>resultCount</parameterName>
+                <valueExpression>10</valueExpression>
+            </parameters>
+            <referenceName>EinsteinSearch:Northwind_Documents_Retriever_1Cx_m3p50291533</referenceName>
+        </templateDataProviders>
+        <templateFormat>FormulaExpression</templateFormat>
+        <versionIdentifier>Pf9b4ExBZFgWnnACnrhpMRGKw6l0xLa5/FYDnobimi0=_2</versionIdentifier>
+    </templateVersions>
+    <templateVersions>
+        <content>You are a Northwind Insurance assistant. Answer the QUESTION using ONLY the information in CONTEXT below.
+
+QUESTION:
+{!$Input:Query}
+
+CONTEXT:
+{!$EinsteinSearch:Northwind_Documents_Retriever_1Cx_m3p50291533.results}
+
+If CONTEXT does not contain the answer, reply exactly:
+&quot;I don&apos;t have that information in the policy documents.&quot;
+Do not infer coverage details that aren&apos;t explicitly stated and do not populate the source_id when there is no answer.
+</content>
+        <fileDroppingStrategy>{&quot;dropFilesBy&quot;:&quot;LAST_MODIFIED_DATE&quot;,&quot;dropFileStartingWith&quot;:&quot;OLDEST&quot;}</fileDroppingStrategy>
+        <inputs>
+            <apiName>RetrieverIdOrName</apiName>
+            <definition>primitive://String</definition>
+            <referenceName>Input:RetrieverIdOrName</referenceName>
+            <required>true</required>
+        </inputs>
+        <inputs>
+            <apiName>Query</apiName>
+            <definition>primitive://String</definition>
+            <referenceName>Input:Query</referenceName>
+            <required>true</required>
+        </inputs>
+        <isCitationEnabled>false</isCitationEnabled>
+        <primaryModel>sfdc_ai__DefaultGPT5Mini</primaryModel>
+        <status>Published</status>
+        <templateDataProviders>
+            <definition>invocable://getEinsteinRetrieverResults/Northwind_Documents_Retriever_1Cx_m3p50291533</definition>
+            <description>The latest retriever with HTML documents stored in the documents folder in AWS S3 bucket.</description>
+            <label>Northwind Documents Retriever</label>
+            <parameters>
+                <definition>primitive://String</definition>
+                <isRequired>true</isRequired>
+                <parameterName>searchText</parameterName>
+                <valueExpression>{!$Input:Query}</valueExpression>
+            </parameters>
+            <parameters>
+                <definition>primitive://List&lt;String&gt;</definition>
+                <isRequired>false</isRequired>
+                <parameterName>outputFieldNames</parameterName>
+                <valueExpression>[&quot;Chunk&quot;]</valueExpression>
+            </parameters>
+            <parameters>
+                <definition>primitive://Integer</definition>
+                <isRequired>false</isRequired>
+                <parameterName>resultCount</parameterName>
+                <valueExpression>10</valueExpression>
+            </parameters>
+            <referenceName>EinsteinSearch:Northwind_Documents_Retriever_1Cx_m3p50291533</referenceName>
+        </templateDataProviders>
+        <templateFormat>FormulaExpression</templateFormat>
+        <versionIdentifier>Pf9b4ExBZFgWnnACnrhpMRGKw6l0xLa5/FYDnobimi0=_3</versionIdentifier>
+    </templateVersions>
+    <templateVersions>
+        <content>You are a Northwind Insurance assistant. Answer the QUESTION using ONLY the information in CONTEXT below.
+
+QUESTION:
+{!$Input:Query}
+
+CONTEXT:
+{!$EinsteinSearch:Northwind_Documents_Retriever_1Cx_m3p50291533.results}
+
+HOW TO ANSWER
+- Open with one short sentence that answers the question directly.
+- If the answer has conditions, steps, or varies by policy type, list them as
+  bullets. One fact per bullet, under 20 words each, maximum 5 bullets.
+- Never write more than two sentences in a row without a break.
+- Give figures, dates and durations exactly as they appear in CONTEXT.
+- Do not restate the question or preface what you are about to say.
+- Close with a brief offer of help only if something useful is genuinely unanswered.
+
+If CONTEXT does not contain the answer, reply exactly:
+&quot;I don&apos;t have that information in the policy documents.&quot;
+Do not infer coverage details that aren&apos;t explicitly stated and do not populate
+the source_id when there is no answer.
+</content>
+        <fileDroppingStrategy>{&quot;dropFilesBy&quot;:&quot;LAST_MODIFIED_DATE&quot;,&quot;dropFileStartingWith&quot;:&quot;OLDEST&quot;}</fileDroppingStrategy>
+        <inputs>
+            <apiName>Query</apiName>
+            <definition>primitive://String</definition>
+            <referenceName>Input:Query</referenceName>
+            <required>true</required>
+        </inputs>
+        <inputs>
+            <apiName>RetrieverIdOrName</apiName>
+            <definition>primitive://String</definition>
+            <referenceName>Input:RetrieverIdOrName</referenceName>
+            <required>true</required>
+        </inputs>
+        <isCitationEnabled>false</isCitationEnabled>
+        <primaryModel>sfdc_ai__DefaultGPT5Mini</primaryModel>
+        <status>Published</status>
+        <templateDataProviders>
+            <definition>invocable://getEinsteinRetrieverResults/Northwind_Documents_Retriever_1Cx_m3p50291533</definition>
+            <description>The latest retriever with HTML documents stored in the documents folder in AWS S3 bucket.</description>
+            <label>Northwind Documents Retriever</label>
+            <parameters>
+                <definition>primitive://String</definition>
+                <isRequired>true</isRequired>
+                <parameterName>searchText</parameterName>
+                <valueExpression>{!$Input:Query}</valueExpression>
+            </parameters>
+            <parameters>
+                <definition>primitive://List&lt;String&gt;</definition>
+                <isRequired>false</isRequired>
+                <parameterName>outputFieldNames</parameterName>
+                <valueExpression>[&quot;Chunk&quot;]</valueExpression>
+            </parameters>
+            <parameters>
+                <definition>primitive://Integer</definition>
+                <isRequired>false</isRequired>
+                <parameterName>resultCount</parameterName>
+                <valueExpression>10</valueExpression>
+            </parameters>
+            <referenceName>EinsteinSearch:Northwind_Documents_Retriever_1Cx_m3p50291533</referenceName>
+        </templateDataProviders>
+        <templateFormat>FormulaExpression</templateFormat>
+        <versionIdentifier>Pf9b4ExBZFgWnnACnrhpMRGKw6l0xLa5/FYDnobimi0=_4</versionIdentifier>
     </templateVersions>
     <type>einstein_gpt__knowledgeAnswers</type>
     <visibility>Global</visibility>

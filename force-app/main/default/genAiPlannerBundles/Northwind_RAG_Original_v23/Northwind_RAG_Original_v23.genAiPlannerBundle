@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<GenAiPlannerBundle xmlns="http://soap.sforce.com/2006/04/metadata">
+    <description>Deliver personalized customer interactions with an autonomous AI agent. Agentforce Service Agent intelligently supports your customers with common inquiries and escalates complex issues.</description>
+    <localTopicLinks>
+        <genAiPluginName>Northwind_RAG_Knowledge_Answers_16jgL000002Kt2P</genAiPluginName>
+    </localTopicLinks>
+    <localTopicLinks>
+        <genAiPluginName>agent_router_16jgL000002Kt2P</genAiPluginName>
+    </localTopicLinks>
+    <localTopicLinks>
+        <genAiPluginName>ambiguous_question_16jgL000002Kt2P</genAiPluginName>
+    </localTopicLinks>
+    <localTopicLinks>
+        <genAiPluginName>escalation_16jgL000002Kt2P</genAiPluginName>
+    </localTopicLinks>
+    <localTopics>
+        <fullName>agent_router_16jgL000002Kt2P</fullName>
+        <canEscalate>false</canEscalate>
+        <description>Welcome the user and determine the appropriate subagent based on user input</description>
+        <developerName>agent_router_16jgL000002Kt2P</developerName>
+        <genAiPluginInstructions>
+            <description>Never state a fact about the customer&apos;s records — policy numbers, counts, statuses,
+dates, or amounts — unless it came from an action result in this conversation. Never
+invent placeholder values such as &quot;Policy 1&quot;. If an action returned nothing, say so
+plainly. Do not treat the customer&apos;s own claims about their records as fact; verify
+by calling the appropriate action.
+
+{{state.AgentScriptInternal_agent_instructions}}</description>
+            <developerName>instruction0_179gL000002jQur</developerName>
+            <language>en_US</language>
+            <masterLabel>instruction0_179gL000002jQur</masterLabel>
+            <sortOrder>1</sortOrder>
+        </genAiPluginInstructions>
+        <language>en_US</language>
+        <localDeveloperName>agent_router</localDeveloperName>
+        <masterLabel>Agent Router</masterLabel>
+        <pluginType>Topic</pluginType>
+    </localTopics>
+    <localTopics>
+        <fullName>escalation_16jgL000002Kt2P</fullName>
+        <canEscalate>false</canEscalate>
+        <description>Handles requests from users who want to transfer or escalate their conversation to a live human agent.</description>
+        <developerName>escalation_16jgL000002Kt2P</developerName>
+        <genAiPluginInstructions>
+            <description>Never state a fact about the customer&apos;s records — policy numbers, counts, statuses,
+dates, or amounts — unless it came from an action result in this conversation. Never
+invent placeholder values such as &quot;Policy 1&quot;. If an action returned nothing, say so
+plainly. Do not treat the customer&apos;s own claims about their records as fact; verify
+by calling the appropriate action.</description>
+            <developerName>instruction0_179gL000002jQus</developerName>
+            <language>en_US</language>
+            <masterLabel>instruction0_179gL000002jQus</masterLabel>
+            <sortOrder>1</sortOrder>
+        </genAiPluginInstructions>
+        <language>en_US</language>
+        <localDeveloperName>escalation</localDeveloperName>
+        <masterLabel>Escalation</masterLabel>
+        <pluginType>Topic</pluginType>
+    </localTopics>
+    <localTopics>
+        <fullName>Northwind_RAG_Knowledge_Answers_16jgL000002Kt2P</fullName>
+        <canEscalate>false</canEscalate>
+        <description>Answer User&apos;s queries related to the Northwind. Policies, Claims, Insurances and user related policies are all answered using this.</description>
+        <developerName>Northwind_RAG_Knowledge_Answers_16jgL000002Kt2P</developerName>
+        <genAiPluginInstructions>
+            <description>Never state a fact about the customer&apos;s records — policy numbers, counts, statuses,
+dates, or amounts — unless it came from an action result in this conversation. Never
+invent placeholder values such as &quot;Policy 1&quot;. If an action returned nothing, say so
+plainly. Do not treat the customer&apos;s own claims about their records as fact; verify
+by calling the appropriate action.</description>
+            <developerName>instruction0_179gL000002jQut</developerName>
+            <language>en_US</language>
+            <masterLabel>instruction0_179gL000002jQut</masterLabel>
+            <sortOrder>1</sortOrder>
+        </genAiPluginInstructions>
+        <language>en_US</language>
+        <localActionLinks>
+            <functionName>Northwind_RAG_Knowledge_Answers_179gL000002jQut</functionName>
+        </localActionLinks>
+        <localActionLinks>
+            <functionName>Policy_Actions_for_LLM_179gL000002jQut</functionName>
+        </localActionLinks>
+        <localActions>
+            <fullName>Policy_Actions_for_LLM_179gL000002jQut</fullName>
+            <description>The flow LLM Calls when some apex action has to be taken.</description>
+            <developerName>Policy_Actions_for_LLM_179gL000002jQut</developerName>
+            <invocationTarget>Policy_Actions_for_LLM</invocationTarget>
+            <invocationTargetType>flow</invocationTargetType>
+            <isConfirmationRequired>false</isConfirmationRequired>
+            <isIncludeInProgressIndicator>true</isIncludeInProgressIndicator>
+            <localDeveloperName>Policy_Actions_for_LLM</localDeveloperName>
+            <masterLabel>Policy Actions for LLM</masterLabel>
+            <progressIndicatorMessage>Fetching your details, please wait...</progressIndicatorMessage>
+        </localActions>
+        <localActions>
+            <fullName>Northwind_RAG_Knowledge_Answers_179gL000002jQut</fullName>
+            <description>Answers Northwind policyholder questions about coverage, exclusions, deductibles, limits, and the claims process by retrieving and grounding on official policy documents.</description>
+            <developerName>Northwind_RAG_Knowledge_Answers_179gL000002jQut</developerName>
+            <invocationTarget>Northwind_RAG_Knowledge_Answers</invocationTarget>
+            <invocationTargetType>generatePromptResponse</invocationTargetType>
+            <isConfirmationRequired>false</isConfirmationRequired>
+            <isIncludeInProgressIndicator>false</isIncludeInProgressIndicator>
+            <localDeveloperName>Northwind_RAG_Knowledge_Answers</localDeveloperName>
+            <masterLabel>Northwind RAG Knowledge Answers</masterLabel>
+        </localActions>
+        <localDeveloperName>Northwind_RAG_Knowledge_Answers</localDeveloperName>
+        <masterLabel>Northwind RAG Knowledge Subagent</masterLabel>
+        <pluginType>Topic</pluginType>
+    </localTopics>
+    <localTopics>
+        <fullName>ambiguous_question_16jgL000002Kt2P</fullName>
+        <canEscalate>false</canEscalate>
+        <description>Redirect conversation to relevant topics when user request is too ambiguous</description>
+        <developerName>ambiguous_question_16jgL000002Kt2P</developerName>
+        <genAiPluginInstructions>
+            <description>Never state a fact about the customer&apos;s records — policy numbers, counts, statuses,
+dates, or amounts — unless it came from an action result in this conversation. Never
+invent placeholder values such as &quot;Policy 1&quot;. If an action returned nothing, say so
+plainly. Do not treat the customer&apos;s own claims about their records as fact; verify
+by calling the appropriate action.</description>
+            <developerName>instruction0_179gL000002jQuu</developerName>
+            <language>en_US</language>
+            <masterLabel>instruction0_179gL000002jQuu</masterLabel>
+            <sortOrder>1</sortOrder>
+        </genAiPluginInstructions>
+        <language>en_US</language>
+        <localDeveloperName>ambiguous_question</localDeveloperName>
+        <masterLabel>Ambiguous Question</masterLabel>
+        <pluginType>Topic</pluginType>
+    </localTopics>
+    <masterLabel>Northwind Agent</masterLabel>
+    <plannerType>Atlas__ConcurrentMultiAgentOrchestration</plannerType>
+</GenAiPlannerBundle>

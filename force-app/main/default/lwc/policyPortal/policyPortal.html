@@ -1,0 +1,314 @@
+<template>
+    <div class="portal">
+
+        <!-- ============ SIDEBAR ============ -->
+        <aside class={sidebarClass}>
+            <div class="brand">
+                <img class="brand__mark" src={logoUrl} alt="Northwind Insurance" />
+                <span class="brand__name">Northwind</span>
+                <button class="sidebar__close" onclick={toggleNav} aria-label="Close navigation">&times;</button>
+            </div>
+
+            <div class="profile">
+                <span class="profile__avatar">{initial}</span>
+                <div class="profile__text">
+                    <span class="profile__hello">Welcome back</span>
+                    <span class="profile__name">Hi, {greetingName}</span>
+                </div>
+            </div>
+
+            <nav class="nav" aria-label="Portal sections">
+                <template for:each={navItems} for:item="item">
+                    <button key={item.id} data-id={item.id} class={item.cssClass} onclick={handleNav}
+                            aria-current={item.ariaCurrent}>
+                        <span class="nav__icon" data-icon={item.id}></span>
+                        <span class="nav__label">{item.label}</span>
+                        <template lwc:if={item.showCount}>
+                            <span class="nav__count">{item.count}</span>
+                        </template>
+                    </button>
+                </template>
+            </nav>
+
+            <div class="sidebar__footer">
+                <button class="logout" onclick={handleLogout}>
+                    <span class="logout__icon"></span>
+                    <span>Logout</span>
+                </button>
+            </div>
+        </aside>
+
+        <div class="scrim" onclick={toggleNav}></div>
+
+        <!-- ============ MAIN ============ -->
+        <main class="main">
+            <header class="head">
+                <button class="head__burger" onclick={toggleNav} aria-label="Open navigation">
+                    <span></span><span></span><span></span>
+                </button>
+                <div class="head__text">
+                    <h1 class="head__title">{activeTitle}</h1>
+                    <p class="head__sub">{activeSubtitle}</p>
+                </div>
+                <template lwc:if={showTools}>
+                    <div class="head__tools">
+                        <button class="tool" onclick={toggleSortDirection} title="Toggle sort direction">
+                            <span class="tool__icon tool__icon--sort"></span>
+                            <span>{sortDirectionLabel}</span>
+                        </button>
+                        <div class="tool tool--select">
+                            <span class="tool__icon tool__icon--filter"></span>
+                            <select class="tool__select" value={sortField} onchange={handleSortField}
+                                    aria-label="Sort policies by">
+                                <template for:each={sortOptions} for:item="opt">
+                                    <option key={opt.value} value={opt.value}>{opt.label}</option>
+                                </template>
+                            </select>
+                        </div>
+                    </div>
+                </template>
+            </header>
+
+            <!-- ---------- loading ---------- -->
+            <template lwc:if={isLoading}>
+                <div class="card">
+                    <div class="skeleton-rows">
+                        <template for:each={skeletons} for:item="s">
+                            <div key={s} class="skeleton"></div>
+                        </template>
+                    </div>
+                </div>
+            </template>
+
+            <!-- ---------- error ---------- -->
+            <template lwc:elseif={hasError}>
+                <div class="card state state--error">
+                    <p class="state__title">We couldn't load your policies</p>
+                    <p class="state__body">{errorMessage}</p>
+                    <button class="state__cta" onclick={reload}>Try again</button>
+                </div>
+            </template>
+
+            <!-- ---------- apply ---------- -->
+            <template lwc:elseif={isApplyView}>
+                <div class="apply">
+                    <form class="card apply__form" onsubmit={handleSubmit}>
+                        <template lwc:if={applyBlocked}>
+                            <p class="notice notice--warn">{applyBlockedReason}</p>
+                        </template>
+
+                        <div class="field">
+                            <label class="field__label" for="ptype">Policy type</label>
+                            <select id="ptype" class="field__input" data-field="policyType"
+                                    value={form.policyType} onchange={handleFieldChange}>
+                                <option value="">Select a policy type</option>
+                                <template for:each={policyTypeOptions} for:item="opt">
+                                    <option key={opt.value} value={opt.value}>{opt.label}</option>
+                                </template>
+                            </select>
+                        </div>
+
+                        <div class="field">
+                            <label class="field__label" for="tenure">Tenure</label>
+                            <select id="tenure" class="field__input" data-field="tenure"
+                                    value={form.tenure} onchange={handleFieldChange}>
+                                <option value="">Select a tenure</option>
+                                <template for:each={tenureOptions} for:item="opt">
+                                    <option key={opt.value} value={opt.value}>{opt.label}</option>
+                                </template>
+                            </select>
+                            <p class="field__hint">Sets the effective and expiration dates.</p>
+                        </div>
+
+                        <div class="field">
+                            <label class="field__label" for="sum">Sum insured</label>
+                            <div class="field__money">
+                                <span class="field__prefix">$</span>
+                                <input id="sum" class="field__input field__input--money" type="number"
+                                       min="1" step="1000" placeholder="100000"
+                                       data-field="sumInsured" value={form.sumInsured}
+                                       onchange={handleFieldChange} oninput={handleFieldChange}/>
+                            </div>
+                        </div>
+
+                        <div class="field">
+                            <label class="field__label" for="freq">Payment frequency</label>
+                            <select id="freq" class="field__input" data-field="paymentFrequency"
+                                    value={form.paymentFrequency} onchange={handleFieldChange}>
+                                <option value="">Select a frequency</option>
+                                <template for:each={frequencyOptions} for:item="opt">
+                                    <option key={opt.value} value={opt.value}>{opt.label}</option>
+                                </template>
+                            </select>
+                            <p class="field__hint">Sets the next payment date and the deductible.</p>
+                        </div>
+
+                        <div class="field">
+                            <label class="field__label" for="premium">Premium amount</label>
+                            <div class="field__money">
+                                <span class="field__prefix">$</span>
+                                <input id="premium" class="field__input field__input--money" type="number"
+                                       min="1" step="50" placeholder="1200"
+                                       data-field="premiumAmount" value={form.premiumAmount}
+                                       onchange={handleFieldChange} oninput={handleFieldChange}/>
+                            </div>
+                        </div>
+
+                        <template lwc:if={hasFormError}>
+                            <p class="notice notice--error">{formError}</p>
+                        </template>
+
+                        <div class="apply__actions">
+                            <button type="button" class="btn btn--ghost" onclick={handleResetForm}>Clear</button>
+                            <button type="button" class="btn btn--solid" disabled={submitDisabled}
+                                    onclick={handleSubmit}>{submitLabel}</button>
+                        </div>
+                    </form>
+
+                    <aside class="card apply__preview">
+                        <p class="apply__preview-title">We'll work these out for you</p>
+                        <dl class="preview">
+                            <template for:each={preview} for:item="row">
+                                <div key={row.key} class="preview__row">
+                                    <dt>{row.label}</dt>
+                                    <dd>{row.value}</dd>
+                                </div>
+                            </template>
+                        </dl>
+                        <p class="apply__preview-note">
+                            Applications are submitted as <strong>Pending</strong>. Final terms are
+                            confirmed by Northwind before cover starts.
+                        </p>
+                    </aside>
+                </div>
+            </template>
+
+            <!-- ---------- detail ---------- -->
+            <template lwc:elseif={isDetailView}>
+                <button class="backlink" onclick={handleBack}>
+                    <span class="backlink__icon"></span>
+                    <span>Back to policies</span>
+                </button>
+
+                <template lwc:if={detailLoading}>
+                    <div class="card">
+                        <div class="skeleton-rows">
+                            <template for:each={skeletons} for:item="s">
+                                <div key={s} class="skeleton"></div>
+                            </template>
+                        </div>
+                    </div>
+                </template>
+
+                <template lwc:elseif={detailMissing}>
+                    <div class="card state">
+                        <p class="state__title">Policy not found</p>
+                        <p class="state__body">
+                            We couldn't find that policy on your account.
+                        </p>
+                    </div>
+                </template>
+
+                <template lwc:else>
+                    <div class="card detail">
+                        <div class="detail__head">
+                            <span class={detail.tileClass}></span>
+                            <div class="detail__id">
+                                <span class="detail__type">{detail.policyType}</span>
+                                <span class="mono detail__num">{detail.policyNumberText}</span>
+                            </div>
+                            <span class={detail.pillClass}>{detail.statusLabel}</span>
+                        </div>
+
+                        <dl class="detail__grid">
+                            <template for:each={detail.fields} for:item="f">
+                                <div key={f.key} class="detail__cell">
+                                    <dt>{f.label}</dt>
+                                    <dd>{f.value}</dd>
+                                </div>
+                            </template>
+                        </dl>
+                    </div>
+                </template>
+            </template>
+
+            <!-- ---------- list ---------- -->
+            <template lwc:elseif={hasRows}>
+                <div class="card">
+                    <!-- Desktop / tablet table -->
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th class="col-idx">#</th>
+                                <th>Policy Type</th>
+                                <th class="col-num">Sum Insured</th>
+                                <th>Policy Number</th>
+                                <th>Expiration Date</th>
+                                <th class="col-status">Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <template for:each={rows} for:item="row">
+                                <tr key={row.policyNumber} class={row.rowClass} tabindex="0"
+                                    data-number={row.policyNumber}
+                                    onclick={handleRowOpen} onkeydown={handleRowKey}>
+                                    <td class="col-idx">{row.index}.</td>
+                                    <td>
+                                        <div class="type">
+                                            <span class={row.tileClass}></span>
+                                            <span class="type__label">{row.policyType}</span>
+                                        </div>
+                                    </td>
+                                    <td class="col-num">{row.sumInsuredText}</td>
+                                    <td class="mono">{row.policyNumberText}</td>
+                                    <td>{row.expirationText}</td>
+                                    <td class="col-status">
+                                        <span class={row.pillClass}>{row.statusLabel}</span>
+                                    </td>
+                                </tr>
+                            </template>
+                        </tbody>
+                    </table>
+
+                    <!-- Mobile cards -->
+                    <ul class="cards">
+                        <template for:each={rows} for:item="row">
+                            <li key={row.policyNumber} class={row.cardClass} tabindex="0"
+                                data-number={row.policyNumber}
+                                onclick={handleRowOpen} onkeydown={handleRowKey}>
+                                <div class="pcard__top">
+                                    <span class={row.tileClass}></span>
+                                    <div class="pcard__id">
+                                        <span class="pcard__type">{row.policyType}</span>
+                                        <span class="mono pcard__num">{row.policyNumberText}</span>
+                                    </div>
+                                    <span class={row.pillClass}>{row.statusLabel}</span>
+                                </div>
+                                <dl class="pcard__meta">
+                                    <div>
+                                        <dt>Sum Insured</dt>
+                                        <dd>{row.sumInsuredText}</dd>
+                                    </div>
+                                    <div>
+                                        <dt>Expires</dt>
+                                        <dd>{row.expirationText}</dd>
+                                    </div>
+                                </dl>
+                            </li>
+                        </template>
+                    </ul>
+                </div>
+                <p class="foot">Showing {rows.length} of {totalCount} policies</p>
+            </template>
+
+            <!-- ---------- empty ---------- -->
+            <template lwc:else>
+                <div class="card state">
+                    <p class="state__title">{emptyTitle}</p>
+                    <p class="state__body">{emptyBody}</p>
+                    <button class="state__cta" onclick={handleExplore}>Apply for a policy</button>
+                </div>
+            </template>
+        </main>
+    </div>
+</template>
