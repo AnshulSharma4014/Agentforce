@@ -74,7 +74,9 @@
     gap: 10px;
 }
 
-/* Company_Branding static resource. Height is fixed and width left auto so a
+/* Company_logo_blue static resource — the site logo. Note the org also has
+   Company_Branding, which is the Embedded Messaging branding asset (chat header +
+   favicon), NOT this one. Height is fixed and width left auto so a
    wide wordmark keeps its aspect ratio instead of being squashed into a square. */
 .brand__mark {
     height: 32px;

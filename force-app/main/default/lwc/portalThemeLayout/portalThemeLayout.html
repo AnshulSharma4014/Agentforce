@@ -17,7 +17,7 @@
                     </template>
                 </nav> -->
 
-                <div class="site-header__actions">
+                <div class={actionsClass}>
                     <template lwc:if={showDemoLogin}>
                         <button class="btn btn--solid" onclick={handleDemoLogin}
                                 disabled={demoBusy} title="Sign in to a shared demo account">

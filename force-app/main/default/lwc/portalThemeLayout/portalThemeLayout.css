@@ -74,7 +74,9 @@
     flex: 0 0 auto;
 }
 
-/* Company_Branding static resource. Height is fixed and width left auto so a
+/* Company_logo_blue static resource — the site logo. Note the org also has
+   Company_Branding, which is the Embedded Messaging branding asset (chat header +
+   favicon), NOT this one. Height is fixed and width left auto so a
    wide wordmark keeps its aspect ratio instead of being squashed into a square. */
 .brand__mark {
     height: 32px;
@@ -312,6 +314,23 @@
     .site-header__inner {
         padding: 12px 20px;
         flex-wrap: wrap;
+        gap: 12px 22px;
+    }
+
+    /* Login page only. 'Dummy Account Login' plus the brand exceeds a phone's width, so
+       this row always wraps; right-aligned it reads as a stray pill under the wordmark.
+       Full width turns it into a deliberate CTA bar that stays aligned on the second line.
+       Scoped via --demo so the Logout button, which does fit inline, is unaffected. */
+    .site-header__actions--demo {
+        width: 100%;
+        margin-left: 0;
+    }
+
+    .site-header__actions--demo .btn--solid {
+        flex: 1 1 auto;
+        justify-content: center;
+        padding: 11px 16px;
+        font-size: 13.5px;
     }
 
     .site-nav {

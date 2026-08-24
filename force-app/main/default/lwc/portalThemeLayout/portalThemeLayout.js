@@ -58,6 +58,15 @@ export default class PortalThemeLayout extends LightningElement {
         return isGuest && this.demoAvailable && this.isLoginPage;
     }
 
+    /* The demo button's label is long enough that it cannot share a row with the brand on
+       a phone, so the actions row wraps. This marks that case for the stylesheet; the
+       Logout button is short enough to stay inline and must not be restyled. */
+    get actionsClass() {
+        return this.showDemoLogin
+            ? 'site-header__actions site-header__actions--demo'
+            : 'site-header__actions';
+    }
+
     get demoLabel() {
         return this.demoBusy ? 'Signing in…' : 'Dummy Account Login';
     }
