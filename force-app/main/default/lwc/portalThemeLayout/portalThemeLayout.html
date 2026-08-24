@@ -16,11 +16,15 @@
                 </nav> -->
 
                 <div class="site-header__actions">
+                    <template lwc:if={showDemoLogin}>
+                        <button class="btn btn--solid" onclick={handleDemoLogin}
+                                disabled={demoBusy} title="Sign in to a shared demo account">
+                            <span>{demoLabel}</span>
+                        </button>
+                    </template>
+
                     <template lwc:if={showAuthAction}>
-                        <template lwc:if={isGuestUser}>
-                            <a class="btn btn--solid" href={loginUrl}>{headerAuthAction}</a>
-                        </template>
-                        <template lwc:else>
+                        <template lwc:if={isKnownUser}>
                             <button class="btn btn--ghost" onclick={handleLogout}>
                                 <span class="btn__icon"></span>
                                 <span>Logout</span>

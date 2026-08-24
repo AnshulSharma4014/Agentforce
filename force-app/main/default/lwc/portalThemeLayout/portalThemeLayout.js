@@ -1,6 +1,8 @@
 import { LightningElement, api } from 'lwc';
 import COMPANY_LOGO from '@salesforce/resourceUrl/Company_logo_blue';
 import isGuest from '@salesforce/user/isGuest';
+import demoLogin from '@salesforce/apex/LightningLoginFormController.demoLogin';
+import isDemoLoginAvailable from '@salesforce/apex/LightningLoginFormController.isDemoLoginAvailable';
 
 function parseLinks(raw) {
     if (!raw) return [];
@@ -22,6 +24,7 @@ export default class PortalThemeLayout extends LightningElement {
 
     menuOpen = false;
     headerAuthAction = null;
+    headerClickUrl = null;
 
     // Static resource, resolved same-origin.
     get logoUrl() {
@@ -30,6 +33,48 @@ export default class PortalThemeLayout extends LightningElement {
 
     get showAuthAction() {
         return !this.hideAuthAction;
+    }
+
+    /* ---- demo account login (guest, login page only) ---- */
+
+    demoAvailable = false;
+    demoBusy = false;
+
+    connectedCallback() {
+        isDemoLoginAvailable()
+            .then((available) => {
+                this.demoAvailable = available === true;
+            })
+            .catch(() => {
+                this.demoAvailable = false;
+            });
+    }
+
+    /** Login page only — the button is meaningless anywhere else on the site. */
+    get isLoginPage() {
+        return window.location.pathname.toLowerCase().indexOf('login') !== -1;
+    }
+
+    get showDemoLogin() {
+        return isGuest && this.demoAvailable && this.isLoginPage;
+    }
+
+    get demoLabel() {
+        return this.demoBusy ? 'Signing in…' : 'Dummy Account Login';
+    }
+
+    async handleDemoLogin() {
+        this.demoBusy = true;
+        try {
+            const url = await demoLogin({ startUrl: '/northwindinsurance/' });
+            if (url) {
+                window.location.href = url;
+                return;                       // navigating away; stay disabled
+            }
+        } catch (e) {
+            // fall through to reset the button
+        }
+        this.demoBusy = false;
     }
 
     get isGuestUser() {
@@ -103,15 +148,5 @@ export default class PortalThemeLayout extends LightningElement {
 
     handleLogout() {
         window.location.href = '/northwindinsurance/secur/logout.jsp';
-    }
-
-    connectedCallback() {
-        if(window.location.href?.toLowerCase()?.includes('login')) {
-            this.headerAuthAction = 'Sign up';
-        } else if(window.location.href?.toLowerCase()?.includes('selfregister')) {
-            this.headerAuthAction = 'Log in';
-        } else {
-            this.headerAuthAction = 'Logout';
-        }
     }
 }
