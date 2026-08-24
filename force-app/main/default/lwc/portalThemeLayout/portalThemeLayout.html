@@ -9,7 +9,9 @@
                     <span class="brand__name">{brandName}</span>
                 </a>
 
-                <!-- <nav lwc:if={isKnownUser} class={navClass} aria-label="Site">
+                <!-- Disabled. The mobile toggle that drove navClass/site-nav--open was removed
+                     with the burger button; restore both together if this nav comes back.
+                <nav lwc:if={isKnownUser} class="site-nav" aria-label="Site">
                     <template for:each={links} for:item="link">
                         <a key={link.key} class="site-nav__link" href={link.url}>{link.label}</a>
                     </template>
@@ -31,11 +33,6 @@
                             </button>
                         </template>
                     </template>
-
-                    <button class="burger" onclick={toggleMenu} aria-label="Toggle menu"
-                            aria-expanded={menuExpanded}>
-                        <span></span><span></span><span></span>
-                    </button>
                 </div>
             </div>
         </header>

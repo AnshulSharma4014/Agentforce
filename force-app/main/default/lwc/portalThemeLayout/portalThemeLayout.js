@@ -22,7 +22,6 @@ export default class PortalThemeLayout extends LightningElement {
     @api footerNote = 'Cover explained in plain language, with an assistant that answers only from your policy documents.';
     @api hideAuthAction = false;
 
-    menuOpen = false;
     headerAuthAction = null;
     headerClickUrl = null;
 
@@ -89,14 +88,6 @@ export default class PortalThemeLayout extends LightningElement {
         return parseLinks(this.navLinks);
     }
 
-    get navClass() {
-        return this.menuOpen ? 'site-nav site-nav--open' : 'site-nav';
-    }
-
-    get menuExpanded() {
-        return this.menuOpen ? 'true' : 'false';
-    }
-
     get year() {
         return new Date().getFullYear();
     }
@@ -140,10 +131,6 @@ export default class PortalThemeLayout extends LightningElement {
                 ]
             }
         ];
-    }
-
-    toggleMenu() {
-        this.menuOpen = !this.menuOpen;
     }
 
     handleLogout() {
