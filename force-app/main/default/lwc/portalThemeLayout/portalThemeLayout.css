@@ -200,25 +200,6 @@
     mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='1.9' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M15 4h3a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2h-3M10 17l-5-5 5-5M5 12h11'/%3E%3C/svg%3E");
 }
 
-.burger {
-    display: none;
-    flex-direction: column;
-    gap: 4px;
-    padding: 10px;
-    border: 1px solid var(--line);
-    border-radius: 10px;
-    background: var(--surface);
-    cursor: pointer;
-}
-
-.burger span {
-    display: block;
-    width: 18px;
-    height: 2px;
-    border-radius: 2px;
-    background: var(--ink-700);
-}
-
 /* ================= main ================= */
 
 .site-main {
@@ -331,10 +312,6 @@
     .site-header__inner {
         padding: 12px 20px;
         flex-wrap: wrap;
-    }
-
-    .burger {
-        display: flex;
     }
 
     .site-nav {

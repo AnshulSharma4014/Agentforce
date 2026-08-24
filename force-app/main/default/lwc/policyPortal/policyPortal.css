@@ -777,9 +777,13 @@
         grid-template-columns: 1fr;
     }
 
+    /* The drawer must sit ABOVE c/portalThemeLayout's sticky site header (z-index 30),
+       otherwise the header paints over the top of the panel and clips the brand and
+       profile rows. Both components share the document's root stacking context, so
+       these values are directly comparable across them. */
     .sidebar {
         position: fixed;
-        z-index: 20;
+        z-index: 60;
         top: 0;
         left: 0;
         width: 286px;
@@ -796,7 +800,7 @@
         display: block;
         position: fixed;
         inset: 0;
-        z-index: 15;
+        z-index: 55;
         background: rgba(15, 31, 26, 0.35);
     }
 
@@ -804,8 +808,14 @@
         display: block;
     }
 
+    /* .head switches to align-items: stretch below 720px, which would blow the burger
+       up to the full height of the title block. Pin it to the top so it reads as a
+       button sitting on the title's line, and keep its bars centred inside it. */
     .head__burger {
         display: flex;
+        align-self: flex-start;
+        align-items: center;
+        justify-content: center;
     }
 
     .main {
@@ -833,6 +843,17 @@
     .tool {
         flex: 1 1 auto;
         justify-content: center;
+    }
+
+    /* Long policy names wrap to two lines here. Centring left the type tile and the
+       status pill floating against the middle of the block and out of line with the
+       single-line cards above and below them, so anchor both to the first line. */
+    .pcard__top {
+        align-items: flex-start;
+    }
+
+    .pcard__type {
+        line-height: 1.35;
     }
 }
 
