@@ -2,9 +2,51 @@
 <Flow xmlns="http://soap.sforce.com/2006/04/metadata">
     <apiVersion>67.0</apiVersion>
     <areMetricsLoggedToDataCloud>false</areMetricsLoggedToDataCloud>
+    <assignments>
+        <description>Assign the permission set names to the &apos;Permission_Set_Names&apos; variable that will be used to query the permission sets.</description>
+        <name>Assign_Permission_set_Names</name>
+        <label>Assign Permission set Names</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <assignmentItems>
+            <assignToReference>Permission_Set_Names</assignToReference>
+            <operator>Add</operator>
+            <value>
+                <stringValue>EinsteinGPTPromptTemplateUser</stringValue>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>Permission_Set_Names</assignToReference>
+            <operator>Add</operator>
+            <value>
+                <stringValue>Northwind_Community_Policy_Access</stringValue>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>Permission_Set_Names</assignToReference>
+            <operator>Add</operator>
+            <value>
+                <stringValue>Customer_Community_Plus_Data_Cloud_Access</stringValue>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>Fetch_Permission_set</targetReference>
+        </connector>
+    </assignments>
     <environments>Default</environments>
     <interviewLabel>Assign Permission Set to Customer Community Plus Users {!$Flow.CurrentDateTime}</interviewLabel>
     <label>Assign Permission Set to Customer Community Plus Users</label>
+    <loops>
+        <name>Assign_Each_Permission_Set</name>
+        <label>Assign Each Permission Set</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <collectionReference>Permission_Set_Names</collectionReference>
+        <iterationOrder>Asc</iterationOrder>
+        <nextValueConnector>
+            <targetReference>Create_Permission_set_Assignment_Records</targetReference>
+        </nextValueConnector>
+    </loops>
     <processMetadataValues>
         <name>BuilderType</name>
         <value>
@@ -30,6 +72,9 @@
         <label>Create Permission set Assignment Records</label>
         <locationX>0</locationX>
         <locationY>0</locationY>
+        <connector>
+            <targetReference>Assign_Each_Permission_Set</targetReference>
+        </connector>
         <inputAssignments>
             <field>AssigneeId</field>
             <value>
@@ -53,14 +98,14 @@
         <locationY>0</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
-            <targetReference>Create_Permission_set_Assignment_Records</targetReference>
+            <targetReference>Assign_Each_Permission_Set</targetReference>
         </connector>
         <filterLogic>and</filterLogic>
         <filters>
             <field>Name</field>
-            <operator>EqualTo</operator>
+            <operator>In</operator>
             <value>
-                <stringValue>Northwind_Community_Policy_Access</stringValue>
+                <elementReference>Permission_Set_Names</elementReference>
             </value>
         </filters>
         <getFirstRecordOnly>true</getFirstRecordOnly>
@@ -76,11 +121,19 @@
         <recordTriggerType>Create</recordTriggerType>
         <scheduledPaths>
             <connector>
-                <targetReference>Fetch_Permission_set</targetReference>
+                <targetReference>Assign_Permission_set_Names</targetReference>
             </connector>
             <pathType>AsyncAfterCommit</pathType>
         </scheduledPaths>
         <triggerType>RecordAfterSave</triggerType>
     </start>
-    <status>Active</status>
+    <status>Obsolete</status>
+    <variables>
+        <description>Permission set API names that needs to be queried</description>
+        <name>Permission_Set_Names</name>
+        <dataType>String</dataType>
+        <isCollection>true</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+    </variables>
 </Flow>

@@ -1,0 +1,35 @@
+{
+  "required" : [ "callableApexAction", "endUserId" ],
+  "unevaluatedProperties" : false,
+  "properties" : {
+    "callableApexAction" : {
+      "title" : "callableApexAction",
+      "description" : "The callable apex action from the LLM",
+      "lightning:type" : "lightning__textType",
+      "lightning:isPII" : false,
+      "copilotAction:isUserInput" : false
+    },
+    "endUserId" : {
+      "title" : "endUserId",
+      "description" : "The messaging End User Id from the agent context",
+      "lightning:type" : "lightning__textType",
+      "lightning:isPII" : false,
+      "copilotAction:isUserInput" : false
+    },
+    "policyNumber" : {
+      "title" : "policyNumber",
+      "description" : "The policy numbers need to be searched",
+      "lightning:type" : "lightning__textType",
+      "lightning:isPII" : false,
+      "copilotAction:isUserInput" : false
+    },
+    "policyScope" : {
+      "title" : "policyScope",
+      "description" : "The scope of the policy (active, inactive, cancelled).",
+      "lightning:type" : "lightning__textType",
+      "lightning:isPII" : false,
+      "copilotAction:isUserInput" : false
+    }
+  },
+  "lightning:type" : "lightning__objectType"
+}
